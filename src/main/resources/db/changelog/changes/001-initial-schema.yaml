@@ -1,0 +1,117 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-initial-schema
+      author: grok
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: username
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: total_points
+                  type: bigint
+                  defaultValue: 0
+        - createTable:
+            tableName: check_ins
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_checkin_user
+                    references: users(id)
+              - column:
+                  name: check_in_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: check_in_month
+                  type: varchar(7)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: check_in_sequence
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: points
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: total_points_after
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: point_history
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: points
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: transaction_type
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: total_points_after
+                  type: bigint
+                  constraints:
+                    nullable: false
+                  defaultValue: 0
+              - column:
+                  name: object_id
+                  type: bigint
+        - createIndex:
+            tableName: check_ins
+            indexName: idx_checkin_user_month
+            columns:
+              - column:
+                  name: user_id
+              - column:
+                  name: check_in_month
+        - createIndex:
+            tableName: point_history
+            indexName: idx_point_history_user
+            columns:
+              - column:
+                  name: user_id

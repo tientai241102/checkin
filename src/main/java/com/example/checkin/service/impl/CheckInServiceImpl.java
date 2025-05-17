@@ -274,6 +274,7 @@ public class CheckInServiceImpl implements CheckInService {
         return (hour >= 9 && hour < 11) || (hour >= 19 && hour < 21);
     }
 
+
     private int getPointsForCheckIn(int checkInCount) {
         return switch (checkInCount) {
             case 1 -> day1Points;

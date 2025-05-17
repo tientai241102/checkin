@@ -271,7 +271,7 @@ public class CheckInServiceImpl implements CheckInService {
 
     private boolean isValidCheckInTime(LocalTime time) {
         int hour = time.getHour();
-        return (hour >= 9 && hour < 11) || (hour >= 19 && hour < 24);
+        return (hour >= 9 && hour < 11) || (hour >= 19 && hour < 21);
     }
 
     private int getPointsForCheckIn(int checkInCount) {

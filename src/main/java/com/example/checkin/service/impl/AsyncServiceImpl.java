@@ -97,7 +97,6 @@ public class AsyncServiceImpl implements AsyncService {
 
             user.setTotalPoints(newTotalPoints);
             userRepository.save(user);
-
             PointHistory history = new PointHistory();
             history.setUserId(userId);
             history.setObjectId(checkIn.getId());
@@ -110,6 +109,7 @@ public class AsyncServiceImpl implements AsyncService {
             // Cập nhật cache UserDTO
             String cacheKey = RedisKeyUtils.getProfileCacheKey(userId);
             UserDTO userDTO = userMapper.responseToRequest(user);
+
             redisTemplateUser.opsForValue().set(cacheKey, userDTO, 1, TimeUnit.DAYS);
         } catch (RuntimeException e) {
               redisTemplate.execute(rollbackCheckinScript,
